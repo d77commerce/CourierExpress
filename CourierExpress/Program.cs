@@ -1,4 +1,5 @@
-using CourierExpress.Data;
+
+using CourierExpress.Infrastructure.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
