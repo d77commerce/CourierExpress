@@ -10,7 +10,7 @@ namespace CourierExpress.Infrastructure.Models
     public class Parcel
     {
         [Key]
-        public int Id { get; set; }
+        public int Id { get; set; }  
         [Required]
         [Range(0.100, 100.000)]
         public double TotalKg { get; set; }
