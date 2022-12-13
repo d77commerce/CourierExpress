@@ -7,9 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CourierExpress", "CourierEx
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CourierExpress.Core", "CourierExpress.Core\CourierExpress.Core.csproj", "{8F3C1662-ED76-498B-AA1B-6B505CD9577F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CourierExpress.Infrastructure", "CourierExpress.Infrastructure\CourierExpress.Infrastructure.csproj", "{55118AC0-E7A2-4E6B-8A7D-4612AC2EA098}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CourierExpress.NUnitTest", "CourierEXpres.NUnitTest\CourierExpress.NUnitTest.csproj", "{76637EBE-ED32-4EE8-8703-97601D5B258E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CourierExpress.NUnitTest", "CourierEXpres.NUnitTest\CourierExpress.NUnitTest.csproj", "{76637EBE-ED32-4EE8-8703-97601D5B258E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CourierExpress.Infrastructure", "CourierExpress.Infrastructure\CourierExpress.Infrastructure.csproj", "{914E4F89-AC88-4D1D-A7AB-A29298F32BFB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,14 +25,14 @@ Global
 		{8F3C1662-ED76-498B-AA1B-6B505CD9577F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8F3C1662-ED76-498B-AA1B-6B505CD9577F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8F3C1662-ED76-498B-AA1B-6B505CD9577F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{55118AC0-E7A2-4E6B-8A7D-4612AC2EA098}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{55118AC0-E7A2-4E6B-8A7D-4612AC2EA098}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{55118AC0-E7A2-4E6B-8A7D-4612AC2EA098}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{55118AC0-E7A2-4E6B-8A7D-4612AC2EA098}.Release|Any CPU.Build.0 = Release|Any CPU
 		{76637EBE-ED32-4EE8-8703-97601D5B258E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{76637EBE-ED32-4EE8-8703-97601D5B258E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{76637EBE-ED32-4EE8-8703-97601D5B258E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{76637EBE-ED32-4EE8-8703-97601D5B258E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{914E4F89-AC88-4D1D-A7AB-A29298F32BFB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{914E4F89-AC88-4D1D-A7AB-A29298F32BFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{914E4F89-AC88-4D1D-A7AB-A29298F32BFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{914E4F89-AC88-4D1D-A7AB-A29298F32BFB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

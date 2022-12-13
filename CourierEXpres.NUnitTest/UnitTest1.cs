@@ -1,4 +1,4 @@
-namespace CourierEXpres.NUnitTest
+namespace CourierExpres.NUnitTest
 {
     public class Tests
     {
