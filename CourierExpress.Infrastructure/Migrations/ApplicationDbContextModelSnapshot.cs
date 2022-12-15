@@ -140,9 +140,8 @@ namespace CourierExpress.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("PartsInfoJson")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("PartsId")
+                        .HasColumnType("int");
 
                     b.Property<int>("Pieces")
                         .HasColumnType("int");
@@ -152,15 +151,53 @@ namespace CourierExpress.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("PartsId");
+
                     b.ToTable("Parcels");
 
                     b.HasData(
                         new
                         {
                             Id = 1,
-                            PartsInfoJson = "{\"1\":{\"kg\":\"2.340\",\"Volume\":\"0\"},\"2\":{\"Kg\":\"1.200\",\"Volume\":\"0\"}}",
+                            PartsId = 1,
                             Pieces = 2,
                             TotalKg = 3.54
+                        });
+                });
+
+            modelBuilder.Entity("CourierExpress.Infrastructure.Data.PartOfParcel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<double?>("Height")
+                        .HasColumnType("float");
+
+                    b.Property<bool>("IsFragile")
+                        .HasColumnType("bit");
+
+                    b.Property<double>("Kg")
+                        .HasColumnType("float");
+
+                    b.Property<double?>("Length")
+                        .HasColumnType("float");
+
+                    b.Property<double?>("Width")
+                        .HasColumnType("float");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PartOfParcel");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            IsFragile = false,
+                            Kg = 2.2999999999999998
                         });
                 });
 
@@ -311,15 +348,15 @@ namespace CourierExpress.Infrastructure.Migrations
                         {
                             Id = "dea12856-c198-4129-b3f3-b893d8395082",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "6c6bb6df-0b81-4594-9075-3cf996aaf538",
+                            ConcurrencyStamp = "070efde4-a74f-4dc7-a93e-5cdecf9e3bad",
                             Email = "agent@mail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "agent@mail.com",
                             NormalizedUserName = "agent@mail.com",
-                            PasswordHash = "AQAAAAEAACcQAAAAEORYIf7QbOylTn6uFDK4L7rbaQxcBq0/OPIPPU8TS68Wo7rO5C8W9zscwEOFx8IW1A==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEDJzQd38ji9CtrNPfMrWChI4KJ0yQXRF8ppf2MddsXUZhSb0SvaDy0YfiItdbf82NQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "87d29c87-f5bd-49d2-bf52-1303b1a6a633",
+                            SecurityStamp = "540c712a-23d7-434f-a6a7-d615fda017c4",
                             TwoFactorEnabled = false,
                             UserName = "agent@mail.com"
                         },
@@ -327,15 +364,15 @@ namespace CourierExpress.Infrastructure.Migrations
                         {
                             Id = "6d5800ce-d726-4fc8-83d9-d6b3ac1f591e",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "197fd54a-562e-46bc-bd34-a6ed84d89fee",
+                            ConcurrencyStamp = "385c992c-c83c-4b9b-bd48-1f7c2cccb473",
                             Email = "guest@mail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "guest@mail.com",
                             NormalizedUserName = "guest@mail.com",
-                            PasswordHash = "AQAAAAEAACcQAAAAEAH+mgyWJ8U142Wx6ZcS+6TjLb06iWwb+ZpMMjuR1CmVV5sZeHVsY01ot7G1jDZIqA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEAYwAwY113w2spLyC0oNMGAdYvGs1v5WoXgci6+eMm1jBmKv8jdUdSariGGnzNIF0g==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "7b50a7eb-7266-4e0a-947a-4cfc6e05f71d",
+                            SecurityStamp = "35f9da79-ccd1-4dc6-a062-b75c5506d0a1",
                             TwoFactorEnabled = false,
                             UserName = "guest@mail.com"
                         });
@@ -465,6 +502,17 @@ namespace CourierExpress.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("CourierExpress.Infrastructure.Data.Parcel", b =>
+                {
+                    b.HasOne("CourierExpress.Infrastructure.Data.PartOfParcel", "Parts")
+                        .WithMany()
+                        .HasForeignKey("PartsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Parts");
                 });
 
             modelBuilder.Entity("CourierExpress.Infrastructure.Data.Worker", b =>

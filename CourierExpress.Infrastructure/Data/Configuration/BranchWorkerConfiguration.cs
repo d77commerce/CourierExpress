@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CourierExpress.Infrastructure.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -18,9 +19,11 @@ namespace CourierExpress.Infrastructure.Data.Configuration
                 k.BranchId
             });
             builder.HasOne(s => s.Worker)
-                .WithMany(sb=>sb.BranchWorkers);
+                .WithMany(sb=>sb.BranchWorkers)
+                .HasForeignKey(sb=>sb.WorkerId);
             builder.HasOne(s => s.Branch)
-                .WithMany(sb => sb.BranchWorkers);
+                .WithMany(sb => sb.BranchWorkers)
+                .HasForeignKey(sb=>sb.BranchId);
         }
     }
 }

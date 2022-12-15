@@ -11,41 +11,36 @@ namespace CourierExpress.Core.Models.Parcel
 {
     public class ParcelModel :IParcel
     {
-        private readonly List<PartOfParcelModel> partsOfParcel;
+        private int _pieces;
+        private double _totalKg;
+       private readonly List<PartOfParcelModel> _partsOfParcel;
 
-        public ParcelModel(List<PartOfParcelModel> _partsOfParcel)
+        public ParcelModel(List<PartOfParcelModel> partsOfParcel)
         {
 
-            partsOfParcel = _partsOfParcel;
+            _partsOfParcel = partsOfParcel;
         }
        
         public int Pieces
         {
-            get => Pieces;
+            get => _pieces;
             set
             {
-                var count = partsOfParcel.Count;
-                Pieces = count;
+                var count = _partsOfParcel.Count;
+                _pieces = count;
             }
         }
-
-
         public double TotalKg
         {
-            get => TotalKg;
+            get => _totalKg;
             set
             {
                 double sumKg = 0.000;
-                partsOfParcel.ForEach(p => p.Kg += sumKg);
-                TotalKg = sumKg;
+                _partsOfParcel.ForEach(p => p.Kg += sumKg);
+                _totalKg = sumKg;
             }
         }
-
-       
-        public string PartsInfoJson
-        {
-            get => PartsInfoJson;
-            set => JsonConvert.SerializeObject(partsOfParcel);
-        }
+        public ICollection<PartOfParcelModel> PartsOfParcel { get; set; }
+        
     }
 }

@@ -5,8 +5,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CourierExpress.Infrastructure.Data;
 
-namespace CourierExpress.Infrastructure.Data
+namespace CourierExpress.Infrastructure.Models
 {
     public class Branch
     {
@@ -18,7 +19,7 @@ namespace CourierExpress.Infrastructure.Data
         [Required]
         public int AddressId { get; set; }
 
-        [ForeignKey(nameof(AddressId))] 
+        [ForeignKey(nameof(AddressId))]
         public Address Address { get; set; } = null!;
         [Required]
         public ICollection<BranchWorker> BranchWorkers { get; set; } = null!;

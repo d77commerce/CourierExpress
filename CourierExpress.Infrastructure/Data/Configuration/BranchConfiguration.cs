@@ -9,16 +9,13 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace CourierExpress.Infrastructure.Data.Configuration
 {
-    internal class ParcelConfiguration :IEntityTypeConfiguration<Parcel>
+    internal class BranchConfiguration :IEntityTypeConfiguration<Branch>
     {
-        public void Configure(EntityTypeBuilder<Parcel> builder)
+        public void Configure(EntityTypeBuilder<Branch> builder)
         {
-            builder.HasData(new Parcel()
+            builder.HasData(new Branch()
             {
-                Id = 1,
-                TotalKg = 3.540,
-                Pieces = 2,
-                PartsId = 1
+               
             });
         }
     }

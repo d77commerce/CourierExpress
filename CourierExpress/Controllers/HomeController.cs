@@ -1,8 +1,9 @@
 ﻿ using CourierExpress.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+ using CourierExpress.Infrastructure.Data;
 
-namespace CourierExpress.Controllers
+ namespace CourierExpress.Controllers
 {
     public class HomeController : Controller
     {
@@ -15,6 +16,7 @@ namespace CourierExpress.Controllers
 
         public IActionResult Index()
         {
+        
             return View();
         }
 

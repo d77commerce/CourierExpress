@@ -9,16 +9,15 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace CourierExpress.Infrastructure.Data.Configuration
 {
-    internal class ParcelConfiguration :IEntityTypeConfiguration<Parcel>
+    internal class PartsOfParcelConfiguration : IEntityTypeConfiguration<PartOfParcel>
     {
-        public void Configure(EntityTypeBuilder<Parcel> builder)
+        public void Configure(EntityTypeBuilder<PartOfParcel> builder)
         {
-            builder.HasData(new Parcel()
+            builder.HasData(new PartOfParcel()
             {
                 Id = 1,
-                TotalKg = 3.540,
-                Pieces = 2,
-                PartsId = 1
+                Kg = 2.300,
+                IsFragile = false
             });
         }
     }

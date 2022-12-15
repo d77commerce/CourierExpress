@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CourierExpress.Infrastructure.Data
+namespace CourierExpress.Infrastructure.Models
 {
     public class Parcel
     {
@@ -17,8 +18,10 @@ namespace CourierExpress.Infrastructure.Data
         [Required]
         [Range(1, 100)]
         public int Pieces { get; set; }
-
         [Required]
-        public string PartsInfoJson { get; set; } = null!;
+        public int PartsId { get; set; }
+
+        [ForeignKey(nameof(PartsId))]
+        public PartOfParcel Parts { get; set; } = null!;
     }
 }

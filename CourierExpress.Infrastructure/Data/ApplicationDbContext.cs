@@ -1,4 +1,5 @@
 ﻿using CourierExpress.Infrastructure.Data.Configuration;
+using CourierExpress.Infrastructure.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -16,6 +17,7 @@ namespace CourierExpress.Infrastructure.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.ApplyConfiguration(new ParcelConfiguration());
+            builder.ApplyConfiguration(new PartsOfParcelConfiguration());
             builder.ApplyConfiguration(new UserConfiguration());
             builder.ApplyConfiguration(new ManagerConfiguration());
             builder.ApplyConfiguration(new WorkerConfiguration());

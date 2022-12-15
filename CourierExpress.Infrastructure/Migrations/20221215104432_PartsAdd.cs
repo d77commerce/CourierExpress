@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CourierExpress.Infrastructure.Migrations
 {
-    public partial class dbSeed : Migration
+    public partial class PartsAdd : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -67,18 +67,40 @@ namespace CourierExpress.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Parcels",
+                name: "PartOfParcel",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    TotalKg = table.Column<double>(type: "float", nullable: false),
-                    Pieces = table.Column<int>(type: "int", nullable: false),
-                    PartsInfoJson = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Kg = table.Column<double>(type: "float", nullable: false),
+                    Height = table.Column<double>(type: "float", nullable: true),
+                    Width = table.Column<double>(type: "float", nullable: true),
+                    Length = table.Column<double>(type: "float", nullable: true),
+                    IsFragile = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Parcels", x => x.Id);
+                    table.PrimaryKey("PK_PartOfParcel", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Branch",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    AddressId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Branch", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Branch_Addresses_AddressId",
+                        column: x => x.AddressId,
+                        principalTable: "Addresses",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -225,6 +247,51 @@ namespace CourierExpress.Infrastructure.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Parcels",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    TotalKg = table.Column<double>(type: "float", nullable: false),
+                    Pieces = table.Column<int>(type: "int", nullable: false),
+                    PartsId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Parcels", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Parcels_PartOfParcel_PartsId",
+                        column: x => x.PartsId,
+                        principalTable: "PartOfParcel",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "BranchWorker",
+                columns: table => new
+                {
+                    WorkerId = table.Column<int>(type: "int", nullable: false),
+                    BranchId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BranchWorker", x => new { x.WorkerId, x.BranchId });
+                    table.ForeignKey(
+                        name: "FK_BranchWorker_Branch_BranchId",
+                        column: x => x.BranchId,
+                        principalTable: "Branch",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_BranchWorker_Workers_WorkerId",
+                        column: x => x.WorkerId,
+                        principalTable: "Workers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.InsertData(
                 table: "Addresses",
                 columns: new[] { "Id", "AddressLine1", "AddressLine2", "City", "Country", "Postcode", "Street" },
@@ -235,19 +302,24 @@ namespace CourierExpress.Infrastructure.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "6d5800ce-d726-4fc8-83d9-d6b3ac1f591e", 0, "f9d2bb5d-3f23-48b2-8f02-ad5b21485b72", "guest@mail.com", false, false, null, "guest@mail.com", "guest@mail.com", "AQAAAAEAACcQAAAAECeMO/ubq5NiteqAhUWfBPa7VSUniz7qGBflo7gZJw39d5veLYV+yO2nbrM3Z8HT7g==", null, false, "65be8f13-3eda-4b93-bd1d-0db1d468d5fc", false, "guest@mail.com" },
-                    { "dea12856-c198-4129-b3f3-b893d8395082", 0, "a8af81c7-7492-4373-8557-51fb54163685", "agent@mail.com", false, false, null, "agent@mail.com", "agent@mail.com", "AQAAAAEAACcQAAAAEL9qyFhSfucEahhtzfL/O04jkhA4sxKPogA8iSl/SjZpww1AOjJefNKDfG8TVVUEIQ==", null, false, "a02cba30-70ab-4a42-997e-ccc48ed00a8c", false, "agent@mail.com" }
+                    { "6d5800ce-d726-4fc8-83d9-d6b3ac1f591e", 0, "385c992c-c83c-4b9b-bd48-1f7c2cccb473", "guest@mail.com", false, false, null, "guest@mail.com", "guest@mail.com", "AQAAAAEAACcQAAAAEAYwAwY113w2spLyC0oNMGAdYvGs1v5WoXgci6+eMm1jBmKv8jdUdSariGGnzNIF0g==", null, false, "35f9da79-ccd1-4dc6-a062-b75c5506d0a1", false, "guest@mail.com" },
+                    { "dea12856-c198-4129-b3f3-b893d8395082", 0, "070efde4-a74f-4dc7-a93e-5cdecf9e3bad", "agent@mail.com", false, false, null, "agent@mail.com", "agent@mail.com", "AQAAAAEAACcQAAAAEDJzQd38ji9CtrNPfMrWChI4KJ0yQXRF8ppf2MddsXUZhSb0SvaDy0YfiItdbf82NQ==", null, false, "540c712a-23d7-434f-a6a7-d615fda017c4", false, "agent@mail.com" }
                 });
 
             migrationBuilder.InsertData(
-                table: "Parcels",
-                columns: new[] { "Id", "PartsInfoJson", "Pieces", "TotalKg" },
-                values: new object[] { 1, "{\"1\":{\"kg\":\"2.340\",\"Volume\":\"0\"},\"2\":{\"Kg\":\"1.200\",\"Volume\":\"0\"}}", 2, 3.54 });
+                table: "PartOfParcel",
+                columns: new[] { "Id", "Height", "IsFragile", "Kg", "Length", "Width" },
+                values: new object[] { 1, null, false, 2.2999999999999998, null, null });
 
             migrationBuilder.InsertData(
                 table: "Managers",
                 columns: new[] { "Id", "UserId" },
                 values: new object[] { 1, "dea12856-c198-4129-b3f3-b893d8395082" });
+
+            migrationBuilder.InsertData(
+                table: "Parcels",
+                columns: new[] { "Id", "PartsId", "Pieces", "TotalKg" },
+                values: new object[] { 1, 1, 2, 3.54 });
 
             migrationBuilder.InsertData(
                 table: "Workers",
@@ -294,9 +366,24 @@ namespace CourierExpress.Infrastructure.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Branch_AddressId",
+                table: "Branch",
+                column: "AddressId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BranchWorker_BranchId",
+                table: "BranchWorker",
+                column: "BranchId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Managers_UserId",
                 table: "Managers",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Parcels_PartsId",
+                table: "Parcels",
+                column: "PartsId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Workers_UserId",
@@ -306,9 +393,6 @@ namespace CourierExpress.Infrastructure.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "Addresses");
-
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
@@ -325,16 +409,28 @@ namespace CourierExpress.Infrastructure.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "BranchWorker");
+
+            migrationBuilder.DropTable(
                 name: "Managers");
 
             migrationBuilder.DropTable(
                 name: "Parcels");
 
             migrationBuilder.DropTable(
+                name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "Branch");
+
+            migrationBuilder.DropTable(
                 name: "Workers");
 
             migrationBuilder.DropTable(
-                name: "AspNetRoles");
+                name: "PartOfParcel");
+
+            migrationBuilder.DropTable(
+                name: "Addresses");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace CourierExpress.Infrastructure.Data
+namespace CourierExpress.Infrastructure.Models
 {
     public class Worker
     {
@@ -15,7 +15,7 @@ namespace CourierExpress.Infrastructure.Data
         [ForeignKey(nameof(UserId))]
         public IdentityUser User { get; set; } = null!;
 
-        [Required] 
+        [Required]
         public ICollection<BranchWorker> BranchWorkers { get; set; } = null!;
     }
 }

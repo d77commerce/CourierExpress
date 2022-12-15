@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace CourierExpress.Infrastructure.Data
+namespace CourierExpress.Infrastructure.Models
 {
     public class Address
     {
