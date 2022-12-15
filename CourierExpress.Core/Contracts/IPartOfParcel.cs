@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CourierExpress.Core.Contracts
 {
-    internal interface IPartOfParcel
+    public interface IPartOfParcel
     {
         double Kg { get; set; }
         double Height { get; set; }

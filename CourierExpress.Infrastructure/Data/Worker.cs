@@ -14,5 +14,8 @@ namespace CourierExpress.Infrastructure.Data
 
         [ForeignKey(nameof(UserId))]
         public IdentityUser User { get; set; } = null!;
+
+        [Required] 
+        public ICollection<BranchWorker> BranchWorkers { get; set; } = null!;
     }
 }

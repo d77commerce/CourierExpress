@@ -20,6 +20,7 @@ namespace CourierExpress.Infrastructure.Data
             builder.ApplyConfiguration(new ManagerConfiguration());
             builder.ApplyConfiguration(new WorkerConfiguration());
             builder.ApplyConfiguration(new AddressConfiguration());
+            builder.ApplyConfiguration(new BranchWorkerConfiguration());
 
             base.OnModelCreating(builder);
         }

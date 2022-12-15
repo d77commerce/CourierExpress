@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CourierExpress.Core.Contracts
 {
-    internal interface IParcel
+    public interface IParcel
     {
         public double TotalKg { get; set; }
       
