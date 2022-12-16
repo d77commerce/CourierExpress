@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CourierExpress.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221216100621_rebildDB")]
-    partial class rebildDB
+    [Migration("20221216180155_UserIsActive5")]
+    partial class UserIsActive5
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -26,17 +26,131 @@ namespace CourierExpress.Infrastructure.Migrations
 
             modelBuilder.Entity("BranchWorker", b =>
                 {
-                    b.Property<int>("BranchWorkersId")
-                        .HasColumnType("int");
-
                     b.Property<int>("BranchesId")
                         .HasColumnType("int");
 
-                    b.HasKey("BranchWorkersId", "BranchesId");
+                    b.Property<int>("WorkersId")
+                        .HasColumnType("int");
 
-                    b.HasIndex("BranchesId");
+                    b.HasKey("BranchesId", "WorkersId");
+
+                    b.HasIndex("WorkersId");
 
                     b.ToTable("BranchWorker");
+                });
+
+            modelBuilder.Entity("CourierExpress.Infrastructure.Models.AppUser", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(true);
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("UserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasDatabaseName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasDatabaseName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "dea12856-c198-4129-b3f3-b893d8395082",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "192c0b1c-5dc5-4823-8937-95ceae187307",
+                            Email = "agent@mail.com",
+                            EmailConfirmed = false,
+                            FirstName = "Emo",
+                            IsActive = true,
+                            LastName = "Smith",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "agent@mail.com",
+                            NormalizedUserName = "agent@mail.com",
+                            PasswordHash = "AQAAAAEAACcQAAAAEA/7uxRBjAAUJXzPD2GmHgEfpxKptxMb18qboFILAXTwcmtaYpjW/Xgh8PGSgGe5jA==",
+                            PhoneNumberConfirmed = false,
+                            TwoFactorEnabled = false,
+                            UserName = "agent@mail.com"
+                        },
+                        new
+                        {
+                            Id = "6d5800ce-d726-4fc8-83d9-d6b3ac1f591e",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "a370649f-e342-415f-9aa6-ad4d2b424c13",
+                            Email = "guest@mail.com",
+                            EmailConfirmed = false,
+                            FirstName = "Ana",
+                            IsActive = true,
+                            LastName = "Lauren",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "guest@mail.com",
+                            NormalizedUserName = "guest@mail.com",
+                            PasswordHash = "AQAAAAEAACcQAAAAEPOHbX1Y/iqyQ0EPMflCUs9ynmCJMsRjTijjqBNi23SVtLYA3Xq0ZPsGa8zaLpVUOw==",
+                            PhoneNumberConfirmed = false,
+                            TwoFactorEnabled = false,
+                            UserName = "guest@mail.com"
+                        });
                 });
 
             modelBuilder.Entity("CourierExpress.Infrastructure.Models.Branch", b =>
@@ -93,7 +207,7 @@ namespace CourierExpress.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Addresses");
+                    b.ToTable("BranchAddress");
                 });
 
             modelBuilder.Entity("CourierExpress.Infrastructure.Models.CollectionAddress", b =>
@@ -449,77 +563,6 @@ namespace CourierExpress.Infrastructure.Migrations
                     b.ToTable("AspNetRoleClaims", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUser", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("AccessFailedCount")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Email")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("NormalizedEmail")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("NormalizedUserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("PasswordHash")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("SecurityStamp")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("UserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedEmail")
-                        .HasDatabaseName("EmailIndex");
-
-                    b.HasIndex("NormalizedUserName")
-                        .IsUnique()
-                        .HasDatabaseName("UserNameIndex")
-                        .HasFilter("[NormalizedUserName] IS NOT NULL");
-
-                    b.ToTable("AspNetUsers", (string)null);
-
-                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityUser");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
                     b.Property<int>("Id")
@@ -605,65 +648,17 @@ namespace CourierExpress.Infrastructure.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("CourierExpress.Infrastructure.Models.AppUser", b =>
-                {
-                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
-
-                    b.Property<bool>("IsActive")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(true);
-
-                    b.HasDiscriminator().HasValue("AppUser");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "dea12856-c198-4129-b3f3-b893d8395082",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "c54d546c-c72d-440f-b381-54f706aa82c1",
-                            Email = "agent@mail.com",
-                            EmailConfirmed = false,
-                            LockoutEnabled = false,
-                            NormalizedEmail = "agent@mail.com",
-                            NormalizedUserName = "agent@mail.com",
-                            PasswordHash = "AQAAAAEAACcQAAAAEPdI3qhXPI8kUE8kQnCzOFKuEDxsQkIdxx3iqjuJjSshx7CLG7oWJCtqdeuxR6kpsQ==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "20a1b736-1195-47e0-a8f3-699841be8c3e",
-                            TwoFactorEnabled = false,
-                            UserName = "agent@mail.com",
-                            IsActive = false
-                        },
-                        new
-                        {
-                            Id = "6d5800ce-d726-4fc8-83d9-d6b3ac1f591e",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "d87d1f30-3d45-4946-8069-f6095af2cd0a",
-                            Email = "guest@mail.com",
-                            EmailConfirmed = false,
-                            LockoutEnabled = false,
-                            NormalizedEmail = "guest@mail.com",
-                            NormalizedUserName = "guest@mail.com",
-                            PasswordHash = "AQAAAAEAACcQAAAAEAaWwIdiJpI1/CM0tA+eAM1YcYfdQLjqbOLeNaO0a6hKnAYk3OUikOLAet7kU+Gqow==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "f11eb5fc-ede6-48c8-bd90-05e745100247",
-                            TwoFactorEnabled = false,
-                            UserName = "guest@mail.com",
-                            IsActive = false
-                        });
-                });
-
             modelBuilder.Entity("BranchWorker", b =>
                 {
-                    b.HasOne("CourierExpress.Infrastructure.Models.Worker", null)
-                        .WithMany()
-                        .HasForeignKey("BranchWorkersId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("CourierExpress.Infrastructure.Models.Branch", null)
                         .WithMany()
                         .HasForeignKey("BranchesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CourierExpress.Infrastructure.Models.Worker", null)
+                        .WithMany()
+                        .HasForeignKey("WorkersId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -769,7 +764,7 @@ namespace CourierExpress.Infrastructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("CourierExpress.Infrastructure.Models.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -778,7 +773,7 @@ namespace CourierExpress.Infrastructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("CourierExpress.Infrastructure.Models.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -793,7 +788,7 @@ namespace CourierExpress.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("CourierExpress.Infrastructure.Models.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -802,11 +797,16 @@ namespace CourierExpress.Infrastructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("CourierExpress.Infrastructure.Models.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("CourierExpress.Infrastructure.Models.AppUser", b =>
+                {
+                    b.Navigation("Orders");
                 });
 
             modelBuilder.Entity("CourierExpress.Infrastructure.Models.Parcel", b =>
@@ -817,11 +817,6 @@ namespace CourierExpress.Infrastructure.Migrations
             modelBuilder.Entity("CourierExpress.Infrastructure.Models.TrackingStatus", b =>
                 {
                     b.Navigation("StatusCollection");
-                });
-
-            modelBuilder.Entity("CourierExpress.Infrastructure.Models.AppUser", b =>
-                {
-                    b.Navigation("Orders");
                 });
 #pragma warning restore 612, 618
         }

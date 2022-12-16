@@ -1,20 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 
 namespace CourierExpress.Infrastructure.Models
 {
-    public class AppUser : IdentityUser
+    public class AppUser : IdentityUser<string>
     {
         public AppUser()
         {
             this.Orders = new HashSet<Orders>();
         }
 
-        public bool IsActive { get; set; } = false;
+        public string? FirstName { get; set; }
+        public string? LastName { get; set; }
+        public bool IsActive { get; set; } = true;
         public virtual ICollection<Orders>? Orders { get; set; }
     }
 }

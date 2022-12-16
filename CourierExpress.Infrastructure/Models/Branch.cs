@@ -7,7 +7,7 @@ namespace CourierExpress.Infrastructure.Models
     {
         public Branch()
         {
-            this.BranchWorkers = new HashSet<Worker>();
+            this.Workers = new HashSet<Worker>();
         }
        
         [Key]
@@ -21,7 +21,7 @@ namespace CourierExpress.Infrastructure.Models
         [ForeignKey(nameof(AddressId))]
         public BranchAddress Address { get; set; } = null!;
 
-        [Required]
-        public virtual ICollection<Worker> BranchWorkers { get; set; }
+      
+        public virtual ICollection<Worker> Workers { get; set; }
     }
 }

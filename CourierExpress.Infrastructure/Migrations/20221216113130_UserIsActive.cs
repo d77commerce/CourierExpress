@@ -5,26 +5,36 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CourierExpress.Infrastructure.Migrations
 {
-    public partial class DbUpdateWorkerAndBranch : Migration
+    public partial class UserIsActive : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Addresses",
+                name: "AppUser",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Country = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    City = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Street = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    AddressLine1 = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    AddressLine2 = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Postcode = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false, defaultValue: true),
+                    UserName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    NormalizedUserName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    NormalizedEmail = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
+                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SecurityStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneNumberConfirmed = table.Column<bool>(type: "bit", nullable: false),
+                    TwoFactorEnabled = table.Column<bool>(type: "bit", nullable: false),
+                    LockoutEnd = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    LockoutEnabled = table.Column<bool>(type: "bit", nullable: false),
+                    AccessFailedCount = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Addresses", x => x.Id);
+                    table.PrimaryKey("PK_AppUser", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -46,8 +56,6 @@ namespace CourierExpress.Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Discriminator = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    IsActive = table.Column<bool>(type: "bit", nullable: true, defaultValue: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -87,6 +95,24 @@ namespace CourierExpress.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "CollectionAddress",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Country = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    City = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Street = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    AddressLine1 = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    AddressLine2 = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Postcode = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CollectionAddress", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "DeliveryAddress",
                 columns: table => new
                 {
@@ -105,20 +131,17 @@ namespace CourierExpress.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "PartOfParcel",
+                name: "Parcels",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Kg = table.Column<double>(type: "float", nullable: false),
-                    Height = table.Column<double>(type: "float", nullable: true),
-                    Width = table.Column<double>(type: "float", nullable: true),
-                    Length = table.Column<double>(type: "float", nullable: true),
-                    IsFragile = table.Column<bool>(type: "bit", nullable: false)
+                    TotalKg = table.Column<double>(type: "float", nullable: false),
+                    Pieces = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PartOfParcel", x => x.Id);
+                    table.PrimaryKey("PK_Parcels", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -133,6 +156,44 @@ namespace CourierExpress.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_TrackingStatus", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Managers",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Managers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Managers_AppUser_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AppUser",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Workers",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Workers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Workers_AppUser_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AppUser",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -242,44 +303,6 @@ namespace CourierExpress.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Managers",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Managers", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Managers_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Workers",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Workers", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Workers_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Branch",
                 columns: table => new
                 {
@@ -300,22 +323,75 @@ namespace CourierExpress.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Parcels",
+                name: "PartOfParcel",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    TotalKg = table.Column<double>(type: "float", nullable: false),
-                    Pieces = table.Column<int>(type: "int", nullable: false),
-                    PartsId = table.Column<int>(type: "int", nullable: false)
+                    Kg = table.Column<double>(type: "float", nullable: false),
+                    Height = table.Column<double>(type: "float", nullable: true),
+                    Width = table.Column<double>(type: "float", nullable: true),
+                    Length = table.Column<double>(type: "float", nullable: true),
+                    IsFragile = table.Column<bool>(type: "bit", nullable: false),
+                    ParcelId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Parcels", x => x.Id);
+                    table.PrimaryKey("PK_PartOfParcel", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Parcels_PartOfParcel_PartsId",
-                        column: x => x.PartsId,
-                        principalTable: "PartOfParcel",
+                        name: "FK_PartOfParcel_Parcels_ParcelId",
+                        column: x => x.ParcelId,
+                        principalTable: "Parcels",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Orders",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    DateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    SenderId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ReceiverName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ReceiverPhone = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ParcelId = table.Column<int>(type: "int", nullable: false),
+                    TrackingStatusId = table.Column<int>(type: "int", nullable: false),
+                    CollectionAddressId = table.Column<int>(type: "int", nullable: false),
+                    DeliveryAddressId = table.Column<int>(type: "int", nullable: false),
+                    CustomerMessage = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Orders", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Orders_AppUser_SenderId",
+                        column: x => x.SenderId,
+                        principalTable: "AppUser",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Orders_CollectionAddress_CollectionAddressId",
+                        column: x => x.CollectionAddressId,
+                        principalTable: "CollectionAddress",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Orders_DeliveryAddress_DeliveryAddressId",
+                        column: x => x.DeliveryAddressId,
+                        principalTable: "DeliveryAddress",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Orders_Parcels_ParcelId",
+                        column: x => x.ParcelId,
+                        principalTable: "Parcels",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Orders_TrackingStatus_TrackingStatusId",
+                        column: x => x.TrackingStatusId,
+                        principalTable: "TrackingStatus",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -345,12 +421,12 @@ namespace CourierExpress.Infrastructure.Migrations
                 name: "BranchWorker",
                 columns: table => new
                 {
-                    BranchWorkersId = table.Column<int>(type: "int", nullable: false),
-                    BranchesId = table.Column<int>(type: "int", nullable: false)
+                    BranchesId = table.Column<int>(type: "int", nullable: false),
+                    WorkersId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_BranchWorker", x => new { x.BranchWorkersId, x.BranchesId });
+                    table.PrimaryKey("PK_BranchWorker", x => new { x.BranchesId, x.WorkersId });
                     table.ForeignKey(
                         name: "FK_BranchWorker_Branch_BranchesId",
                         column: x => x.BranchesId,
@@ -358,98 +434,41 @@ namespace CourierExpress.Infrastructure.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_BranchWorker_Workers_BranchWorkersId",
-                        column: x => x.BranchWorkersId,
+                        name: "FK_BranchWorker_Workers_WorkersId",
+                        column: x => x.WorkersId,
                         principalTable: "Workers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "Orders",
-                columns: table => new
+            migrationBuilder.InsertData(
+                table: "AppUser",
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "IsActive", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                values: new object[,]
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    DateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    SenderId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ReceiverName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ReceiverPhone = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ParcelId = table.Column<int>(type: "int", nullable: false),
-                    TrackingStatusId = table.Column<int>(type: "int", nullable: false),
-                    CollectionAddressId = table.Column<int>(type: "int", nullable: false),
-                    DeliveryAddressId = table.Column<int>(type: "int", nullable: false),
-                    CustomerMessage = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    AppUserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Orders", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Orders_Addresses_CollectionAddressId",
-                        column: x => x.CollectionAddressId,
-                        principalTable: "Addresses",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Orders_AspNetUsers_AppUserId",
-                        column: x => x.AppUserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Orders_AspNetUsers_SenderId",
-                        column: x => x.SenderId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Orders_DeliveryAddress_DeliveryAddressId",
-                        column: x => x.DeliveryAddressId,
-                        principalTable: "DeliveryAddress",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Orders_Parcels_ParcelId",
-                        column: x => x.ParcelId,
-                        principalTable: "Parcels",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Orders_TrackingStatus_TrackingStatusId",
-                        column: x => x.TrackingStatusId,
-                        principalTable: "TrackingStatus",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                    { "6d5800ce-d726-4fc8-83d9-d6b3ac1f591e", 0, "8913ea63-386b-47a0-b98b-ab2ace198d6e", "guest@mail.com", false, "Ana", true, "Lauren", false, null, "guest@mail.com", "guest@mail.com", "AQAAAAEAACcQAAAAEENWTay6xyncJaRxM6po3YYb3/Pq+mg42aVBRRSvFAklb85XjjGT7PoTQezTWeYMtg==", null, false, null, false, "guest@mail.com" },
+                    { "dea12856-c198-4129-b3f3-b893d8395082", 0, "d1c306b2-5638-4228-85e5-f6c13e203198", "agent@mail.com", false, "Emo", true, "Smith", false, null, "agent@mail.com", "agent@mail.com", "AQAAAAEAACcQAAAAEACDb2bEdLWVUuIxje+x/+2mkhM4Gk6hlUvW+/zsuFxr4v/bYvGzjmf8czgcaSEuKw==", null, false, null, false, "agent@mail.com" }
                 });
 
             migrationBuilder.InsertData(
-                table: "Addresses",
+                table: "CollectionAddress",
                 columns: new[] { "Id", "AddressLine1", "AddressLine2", "City", "Country", "Postcode", "Street" },
                 values: new object[] { 1, null, null, "Sofia", "Bulgaria", "1000", "Nezabravka" });
 
             migrationBuilder.InsertData(
-                table: "AspNetUsers",
-                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Discriminator", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[,]
-                {
-                    { "6d5800ce-d726-4fc8-83d9-d6b3ac1f591e", 0, "7ac96751-a6e1-4f77-829e-2d66268dbd9f", "AppUser", "guest@mail.com", false, false, null, "guest@mail.com", "guest@mail.com", "AQAAAAEAACcQAAAAEJdLGd5xiJbMYkwF4acIYNpNFv3ITM2k4YY4vxgPfFVTcTQhZ1MHmrUCfGf2svsrog==", null, false, "d43d8371-d4b9-463c-b998-5c7747a6860d", false, "guest@mail.com" },
-                    { "dea12856-c198-4129-b3f3-b893d8395082", 0, "fc0f3753-dcca-4afa-b5c6-8988f5aaac15", "AppUser", "agent@mail.com", false, false, null, "agent@mail.com", "agent@mail.com", "AQAAAAEAACcQAAAAEMsPVIjz6TRInqadBUhq0IWX4j4e1BD6mOCCCsb5v9ZZeRgMbMPcle3C3Fbc/3Zgqw==", null, false, "21e1943a-04fc-43ed-99ff-d478f4ebe628", false, "agent@mail.com" }
-                });
+                table: "Parcels",
+                columns: new[] { "Id", "Pieces", "TotalKg" },
+                values: new object[] { 1, 2, 3.54 });
 
             migrationBuilder.InsertData(
                 table: "PartOfParcel",
-                columns: new[] { "Id", "Height", "IsFragile", "Kg", "Length", "Width" },
-                values: new object[] { 1, null, false, 2.2999999999999998, null, null });
+                columns: new[] { "Id", "Height", "IsFragile", "Kg", "Length", "ParcelId", "Width" },
+                values: new object[] { 1, null, false, 2.2999999999999998, null, null, null });
 
             migrationBuilder.InsertData(
                 table: "Managers",
                 columns: new[] { "Id", "UserId" },
                 values: new object[] { 1, "dea12856-c198-4129-b3f3-b893d8395082" });
-
-            migrationBuilder.InsertData(
-                table: "Parcels",
-                columns: new[] { "Id", "PartsId", "Pieces", "TotalKg" },
-                values: new object[] { 1, 1, 2, 3.54 });
 
             migrationBuilder.InsertData(
                 table: "Workers",
@@ -501,19 +520,14 @@ namespace CourierExpress.Infrastructure.Migrations
                 column: "AddressId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_BranchWorker_BranchesId",
+                name: "IX_BranchWorker_WorkersId",
                 table: "BranchWorker",
-                column: "BranchesId");
+                column: "WorkersId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Managers_UserId",
                 table: "Managers",
                 column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Orders_AppUserId",
-                table: "Orders",
-                column: "AppUserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Orders_CollectionAddressId",
@@ -541,9 +555,9 @@ namespace CourierExpress.Infrastructure.Migrations
                 column: "TrackingStatusId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Parcels_PartsId",
-                table: "Parcels",
-                column: "PartsId");
+                name: "IX_PartOfParcel_ParcelId",
+                table: "PartOfParcel",
+                column: "ParcelId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Status_TrackingStatusId",
@@ -583,10 +597,16 @@ namespace CourierExpress.Infrastructure.Migrations
                 name: "Orders");
 
             migrationBuilder.DropTable(
+                name: "PartOfParcel");
+
+            migrationBuilder.DropTable(
                 name: "Status");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUsers");
 
             migrationBuilder.DropTable(
                 name: "Branch");
@@ -595,7 +615,7 @@ namespace CourierExpress.Infrastructure.Migrations
                 name: "Workers");
 
             migrationBuilder.DropTable(
-                name: "Addresses");
+                name: "CollectionAddress");
 
             migrationBuilder.DropTable(
                 name: "DeliveryAddress");
@@ -610,10 +630,7 @@ namespace CourierExpress.Infrastructure.Migrations
                 name: "BranchAddress");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
-                name: "PartOfParcel");
+                name: "AppUser");
         }
     }
 }

@@ -27,6 +27,8 @@ namespace CourierExpress.Infrastructure.Data.Configuration
             {
                 Id = "dea12856-c198-4129-b3f3-b893d8395082",
                 UserName = "agent@mail.com",
+                FirstName = "Emo",
+                LastName = "Smith",
                 NormalizedUserName = "agent@mail.com",
                 Email = "agent@mail.com",
                 NormalizedEmail = "agent@mail.com"
@@ -41,6 +43,8 @@ namespace CourierExpress.Infrastructure.Data.Configuration
             {
                 Id = "6d5800ce-d726-4fc8-83d9-d6b3ac1f591e",
                 UserName = "guest@mail.com",
+                FirstName = "Ana",
+                LastName = "Lauren",
                 NormalizedUserName = "guest@mail.com",
                 Email = "guest@mail.com",
                 NormalizedEmail = "guest@mail.com"
