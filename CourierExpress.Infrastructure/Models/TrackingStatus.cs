@@ -4,19 +4,26 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CourierExpress.Infrastructure.Models.Enums;
 
 namespace CourierExpress.Infrastructure.Models
 {
     public class TrackingStatus
-    { 
+    {
+        public TrackingStatus()
+        {
+            this.StatusCollection = new HashSet<Status>();
+        }
         [Key]
         public int Id { get; set; }
+
         [Required]
         public DateTime DateTime { get; set; }= DateTime.Now;
 
-        public Status Status { get; set; }
+        [Required] 
+        public virtual ICollection<Status> StatusCollection { get; set; } = null!;
+        [Required]
+        public string Info { get; set; } = "Thanks ! ! !";
 
-        public string? Info { get; set; }
-     
     }
 }

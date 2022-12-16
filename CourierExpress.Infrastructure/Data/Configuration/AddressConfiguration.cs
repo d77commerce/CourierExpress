@@ -9,11 +9,11 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace CourierExpress.Infrastructure.Data.Configuration
 {
-    public class AddressConfiguration : IEntityTypeConfiguration<Address>
+    public class AddressConfiguration : IEntityTypeConfiguration<CollectionAddress>
     {
-        public void Configure(EntityTypeBuilder<Address> builder)
+        public void Configure(EntityTypeBuilder<CollectionAddress> builder)
         {
-            builder.HasData(new Address()
+            builder.HasData(new CollectionAddress()
             {
                 Id = 1,
                 Country = "Bulgaria",

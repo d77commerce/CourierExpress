@@ -10,6 +10,10 @@ namespace CourierExpress.Infrastructure.Models
 {
     public class Parcel
     {
+        public Parcel()
+        {
+            this.Parts = new HashSet<PartOfParcel>();
+        }
         [Key]
         public int Id { get; set; }
         [Required]
@@ -18,10 +22,8 @@ namespace CourierExpress.Infrastructure.Models
         [Required]
         [Range(1, 100)]
         public int Pieces { get; set; }
-        [Required]
-        public int PartsId { get; set; }
-
-        [ForeignKey(nameof(PartsId))]
-        public PartOfParcel Parts { get; set; } = null!;
+     
+        public virtual ICollection<PartOfParcel> Parts  { get; set; } = null!;
     }
 }
+ 

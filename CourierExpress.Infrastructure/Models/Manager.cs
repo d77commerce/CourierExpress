@@ -12,6 +12,6 @@ namespace CourierExpress.Infrastructure.Models
         public string UserId { get; set; } = null!;
 
         [ForeignKey(nameof(UserId))]
-        public IdentityUser User { get; set; } = null!;
+        public AppUser User { get; set; } = null!;
     }
 }

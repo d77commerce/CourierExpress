@@ -1,16 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CourierExpress.Infrastructure.Data;
 
 namespace CourierExpress.Infrastructure.Models
 {
     public class Branch
     {
+        public Branch()
+        {
+            this.BranchWorkers = new HashSet<Worker>();
+        }
+       
         [Key]
         public int Id { get; set; }
 
@@ -20,8 +19,9 @@ namespace CourierExpress.Infrastructure.Models
         public int AddressId { get; set; }
 
         [ForeignKey(nameof(AddressId))]
-        public Address Address { get; set; } = null!;
+        public BranchAddress Address { get; set; } = null!;
+
         [Required]
-        public ICollection<BranchWorker> BranchWorkers { get; set; } = null!;
+        public virtual ICollection<Worker> BranchWorkers { get; set; }
     }
 }

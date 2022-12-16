@@ -13,28 +13,32 @@ namespace CourierExpress.Infrastructure.Models
     {
         public int Id { get; set; }
         public DateTime DateTime { get; set; } = DateTime.Now;
-        public IdentityUser Sender { get; set; } = null!;
+        public AppUser Sender { get; set; } = null!;
         public string ReceiverName { get; set; } = null!;
         public string ReceiverPhone { get; set; } = null!;
         [Required]
         public int ParcelId { get; set; }
 
         [ForeignKey(nameof(ParcelId))]
-        public Parcel Parcel { get; set; } = null!;
+        public virtual Parcel Parcel { get; set; } = null!;
         [Required]
         public int TrackingStatusId { get; set; }
 
         [ForeignKey(nameof(TrackingStatusId))]
-        public TrackingStatus TrackingStatus { get; set; } = null!;
+        public virtual TrackingStatus TrackingStatus { get; set; } = null!;
+
+
+        [ForeignKey(nameof(CollectionAddress))]
         public int CollectionAddressId { get; set; }
 
-        [ForeignKey(nameof(CollectionAddressId))]
-        public Address CollectionAddress { get; set; } = null!;
-        [Required]
+        public virtual CollectionAddress CollectionAddress { get; set; } = null!;
+
+        [ForeignKey(nameof(DeliveryAddress))]
         public int DeliveryAddressId { get; set; }
 
-        [ForeignKey(nameof(DeliveryAddressId))]
-        public Address DeliveryAddress { get; set; } = null!;
+        public virtual DeliveryAddress DeliveryAddress { get; set; } = null!;
+
+        public string? CustomerMessage { get; set; }
 
     }
 }

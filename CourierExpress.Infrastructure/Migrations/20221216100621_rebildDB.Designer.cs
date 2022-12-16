@@ -4,6 +4,7 @@ using CourierExpress.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CourierExpress.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221216100621_rebildDB")]
+    partial class rebildDB
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -91,7 +93,7 @@ namespace CourierExpress.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("BranchAddress");
+                    b.ToTable("Addresses");
                 });
 
             modelBuilder.Entity("CourierExpress.Infrastructure.Models.CollectionAddress", b =>
@@ -619,15 +621,15 @@ namespace CourierExpress.Infrastructure.Migrations
                         {
                             Id = "dea12856-c198-4129-b3f3-b893d8395082",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "ace9cc31-ca13-4299-9bfd-c824a4b4d0af",
+                            ConcurrencyStamp = "c54d546c-c72d-440f-b381-54f706aa82c1",
                             Email = "agent@mail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "agent@mail.com",
                             NormalizedUserName = "agent@mail.com",
-                            PasswordHash = "AQAAAAEAACcQAAAAEIN4bd0hay8a9xfyuA4WacBea3dyG65iWKZcbPUn9c7n9NLIcUpW5FVBzTVGgeQW4g==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEPdI3qhXPI8kUE8kQnCzOFKuEDxsQkIdxx3iqjuJjSshx7CLG7oWJCtqdeuxR6kpsQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "628d98cc-8d9f-4e62-bba4-7a5c428b803d",
+                            SecurityStamp = "20a1b736-1195-47e0-a8f3-699841be8c3e",
                             TwoFactorEnabled = false,
                             UserName = "agent@mail.com",
                             IsActive = false
@@ -636,15 +638,15 @@ namespace CourierExpress.Infrastructure.Migrations
                         {
                             Id = "6d5800ce-d726-4fc8-83d9-d6b3ac1f591e",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "3472bdcb-5cc4-4e2b-9ccf-85aec7d3e586",
+                            ConcurrencyStamp = "d87d1f30-3d45-4946-8069-f6095af2cd0a",
                             Email = "guest@mail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "guest@mail.com",
                             NormalizedUserName = "guest@mail.com",
-                            PasswordHash = "AQAAAAEAACcQAAAAEOYB0P2hKy7lV9Y6WWO5lEjL7XzZ86sk5AKdg3m2TXgGn6se/yEv4kp85XZ1Rqk2dw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEAaWwIdiJpI1/CM0tA+eAM1YcYfdQLjqbOLeNaO0a6hKnAYk3OUikOLAet7kU+Gqow==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "12691b56-168f-4f0b-a6d8-9e8449b7eeb3",
+                            SecurityStamp = "f11eb5fc-ede6-48c8-bd90-05e745100247",
                             TwoFactorEnabled = false,
                             UserName = "guest@mail.com",
                             IsActive = false

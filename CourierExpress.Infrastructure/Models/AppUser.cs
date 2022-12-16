@@ -9,7 +9,12 @@ namespace CourierExpress.Infrastructure.Models
 {
     public class AppUser : IdentityUser
     {
+        public AppUser()
+        {
+            this.Orders = new HashSet<Orders>();
+        }
+
         public bool IsActive { get; set; } = false;
-        public ICollection<Orders>? Orders { get; set; }
+        public virtual ICollection<Orders>? Orders { get; set; }
     }
 }

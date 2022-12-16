@@ -4,6 +4,7 @@ using CourierExpress.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CourierExpress.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221216092006_WorkerAddress")]
+    partial class WorkerAddress
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -91,7 +93,7 @@ namespace CourierExpress.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("BranchAddress");
+                    b.ToTable("Addresses");
                 });
 
             modelBuilder.Entity("CourierExpress.Infrastructure.Models.CollectionAddress", b =>
@@ -208,6 +210,9 @@ namespace CourierExpress.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<string>("AppUserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<int>("CollectionAddressId")
                         .HasColumnType("int");
 
@@ -240,6 +245,8 @@ namespace CourierExpress.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("AppUserId");
+
                     b.HasIndex("CollectionAddressId");
 
                     b.HasIndex("DeliveryAddressId");
@@ -261,6 +268,9 @@ namespace CourierExpress.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<int>("PartsId")
+                        .HasColumnType("int");
+
                     b.Property<int>("Pieces")
                         .HasColumnType("int");
 
@@ -269,12 +279,15 @@ namespace CourierExpress.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("PartsId");
+
                     b.ToTable("Parcels");
 
                     b.HasData(
                         new
                         {
                             Id = 1,
+                            PartsId = 1,
                             Pieces = 2,
                             TotalKg = 3.54
                         });
@@ -300,15 +313,10 @@ namespace CourierExpress.Infrastructure.Migrations
                     b.Property<double?>("Length")
                         .HasColumnType("float");
 
-                    b.Property<int?>("ParcelId")
-                        .HasColumnType("int");
-
                     b.Property<double?>("Width")
                         .HasColumnType("float");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ParcelId");
 
                     b.ToTable("PartOfParcel");
 
@@ -619,15 +627,15 @@ namespace CourierExpress.Infrastructure.Migrations
                         {
                             Id = "dea12856-c198-4129-b3f3-b893d8395082",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "ace9cc31-ca13-4299-9bfd-c824a4b4d0af",
+                            ConcurrencyStamp = "7d8c0e74-2e98-4462-949a-9c93a28da788",
                             Email = "agent@mail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "agent@mail.com",
                             NormalizedUserName = "agent@mail.com",
-                            PasswordHash = "AQAAAAEAACcQAAAAEIN4bd0hay8a9xfyuA4WacBea3dyG65iWKZcbPUn9c7n9NLIcUpW5FVBzTVGgeQW4g==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEP4sxb5v5mVCFVNrOZi2yHKSBzeDAFXCyET7YaIxhcHalbIgRoHCwylqvKJi334+dg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "628d98cc-8d9f-4e62-bba4-7a5c428b803d",
+                            SecurityStamp = "d3763ea7-4ad7-45cc-b03a-5fd76d68875a",
                             TwoFactorEnabled = false,
                             UserName = "agent@mail.com",
                             IsActive = false
@@ -636,15 +644,15 @@ namespace CourierExpress.Infrastructure.Migrations
                         {
                             Id = "6d5800ce-d726-4fc8-83d9-d6b3ac1f591e",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "3472bdcb-5cc4-4e2b-9ccf-85aec7d3e586",
+                            ConcurrencyStamp = "9e9b3e79-ff44-4076-9948-247c50b2d07a",
                             Email = "guest@mail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "guest@mail.com",
                             NormalizedUserName = "guest@mail.com",
-                            PasswordHash = "AQAAAAEAACcQAAAAEOYB0P2hKy7lV9Y6WWO5lEjL7XzZ86sk5AKdg3m2TXgGn6se/yEv4kp85XZ1Rqk2dw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEIoOGNnSuSwBwbe1NYY72hS7rCZOLnfdPUzR1IlwHAaYXG5h6CxEkTtcKXVLOcu6TQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "12691b56-168f-4f0b-a6d8-9e8449b7eeb3",
+                            SecurityStamp = "5257004d-3e96-48ed-9c82-f14f704948e9",
                             TwoFactorEnabled = false,
                             UserName = "guest@mail.com",
                             IsActive = false
@@ -679,7 +687,7 @@ namespace CourierExpress.Infrastructure.Migrations
 
             modelBuilder.Entity("CourierExpress.Infrastructure.Models.Manager", b =>
                 {
-                    b.HasOne("CourierExpress.Infrastructure.Models.AppUser", "User")
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -690,6 +698,10 @@ namespace CourierExpress.Infrastructure.Migrations
 
             modelBuilder.Entity("CourierExpress.Infrastructure.Models.Orders", b =>
                 {
+                    b.HasOne("CourierExpress.Infrastructure.Models.AppUser", null)
+                        .WithMany("Orders")
+                        .HasForeignKey("AppUserId");
+
                     b.HasOne("CourierExpress.Infrastructure.Models.CollectionAddress", "CollectionAddress")
                         .WithMany()
                         .HasForeignKey("CollectionAddressId")
@@ -708,8 +720,8 @@ namespace CourierExpress.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CourierExpress.Infrastructure.Models.AppUser", "Sender")
-                        .WithMany("Orders")
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "Sender")
+                        .WithMany()
                         .HasForeignKey("SenderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -731,11 +743,15 @@ namespace CourierExpress.Infrastructure.Migrations
                     b.Navigation("TrackingStatus");
                 });
 
-            modelBuilder.Entity("CourierExpress.Infrastructure.Models.PartOfParcel", b =>
+            modelBuilder.Entity("CourierExpress.Infrastructure.Models.Parcel", b =>
                 {
-                    b.HasOne("CourierExpress.Infrastructure.Models.Parcel", null)
-                        .WithMany("Parts")
-                        .HasForeignKey("ParcelId");
+                    b.HasOne("CourierExpress.Infrastructure.Models.PartOfParcel", "Parts")
+                        .WithMany()
+                        .HasForeignKey("PartsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Parts");
                 });
 
             modelBuilder.Entity("CourierExpress.Infrastructure.Models.Status", b =>
@@ -805,11 +821,6 @@ namespace CourierExpress.Infrastructure.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("CourierExpress.Infrastructure.Models.Parcel", b =>
-                {
-                    b.Navigation("Parts");
                 });
 
             modelBuilder.Entity("CourierExpress.Infrastructure.Models.TrackingStatus", b =>

@@ -1,8 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CourierExpress.Infrastructure.Models
 {
-    public class Address
+    public class CollectionAddress
     {
         [Key]
         public int Id { get; set; }
@@ -16,7 +17,7 @@ namespace CourierExpress.Infrastructure.Models
         public string? AddressLine2 { get; set; }
         [Required]
         public string Postcode { get; set; } = null!;
-
+       
 
 
 

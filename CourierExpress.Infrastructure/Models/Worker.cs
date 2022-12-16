@@ -6,6 +6,10 @@ namespace CourierExpress.Infrastructure.Models
 {
     public class Worker
     {
+        public Worker()
+        {
+            this.Branches = new HashSet<Branch>();
+        }
         [Key]
         public int Id { get; set; }
 
@@ -13,9 +17,9 @@ namespace CourierExpress.Infrastructure.Models
         public string UserId { get; set; } = null!;
 
         [ForeignKey(nameof(UserId))]
-        public IdentityUser User { get; set; } = null!;
+        public AppUser User { get; set; } = null!;
+     
 
-        [Required]
-        public ICollection<BranchWorker> BranchWorkers { get; set; } = null!;
+        public virtual ICollection<Branch> Branches { get; set; } = null!;
     }
 }

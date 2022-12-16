@@ -22,7 +22,6 @@ namespace CourierExpress.Infrastructure.Data
             builder.ApplyConfiguration(new ManagerConfiguration());
             builder.ApplyConfiguration(new WorkerConfiguration());
             builder.ApplyConfiguration(new AddressConfiguration());
-            builder.ApplyConfiguration(new BranchWorkerConfiguration());
 
             base.OnModelCreating(builder);
         }
@@ -30,6 +29,6 @@ namespace CourierExpress.Infrastructure.Data
         public DbSet<Manager> Managers { get; set; } = null!;
         public DbSet<Worker> Workers { get; set; } = null!;
         public DbSet<Parcel> Parcels { get; set; } = null!;
-        public DbSet<Address> Addresses { get; set; } = null!;
+       
     }
 }

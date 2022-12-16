@@ -18,7 +18,7 @@ namespace CourierExpress.Infrastructure.Data.Configuration
                 Id = 1,
                 TotalKg = 3.540,
                 Pieces = 2,
-                PartsId = 1
+            
             });
         }
     }
