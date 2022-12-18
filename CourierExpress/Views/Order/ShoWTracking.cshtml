@@ -1,0 +1,27 @@
+﻿@using CourierExpress.Core.Models.Order
+@model CourierExpress.Core.Services.OrderServices
+
+@{
+    ViewBag.Title = "Result";
+    Layout = "_Layout";
+}
+
+<h2>Your Parcel status</h2>
+<div>
+    <label>asp-for"TrackingStatus"</label>
+    <tbody>
+        @foreach (var obj in  Model)
+        {
+            <tr>
+                <td width="50%">
+                    @obj.ToString()
+                </td>
+            </tr>
+        }
+    </tbody>
+    <p>
+        Learn about <a href="https://clickandgrab.co.uk">
+            Web Shop
+        </a>.
+    </p>
+</div>

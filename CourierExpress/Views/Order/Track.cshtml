@@ -1,0 +1,25 @@
+﻿@using CourierExpress.Core.Services
+@model CourierExpress.Core.Models.Order.Order
+
+<h2>Tracking Status </h2>
+<div>
+    <label asp-for="TrackingStatus">Fill your Tracking No</label>
+    <input asp-for="Id" class="form-control" />
+    <span asp-validation-for="Id" class="text-bg-warning"></span>
+    <hr />
+</div>
+<hr />
+<div class="text-end">
+    <button type="submit" class="btn btn-primary">Track</button>
+    <a asp-controller="Order" asp-action="Index" class="btn btn-primary">Back to list</a>
+</div>
+<hr />
+<div>
+    <label>asp-for"TrackingStatus"</label>
+    
+    <p>
+        Learn about <a href="https://clickandgrab.co.uk">
+            Web Shop
+        </a>.
+    </p>
+</div>

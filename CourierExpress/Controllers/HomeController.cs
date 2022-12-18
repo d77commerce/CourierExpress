@@ -1,23 +1,27 @@
 ﻿ using CourierExpress.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+ using CourierExpress.Core.Contracts;
  using CourierExpress.Infrastructure.Data;
+ using CourierExpress.Infrastructure.Models;
 
  namespace CourierExpress.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        //private readonly IOrderServices orderServices;
+        private readonly ILogger<HomeController> logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> _logger)
         {
-            _logger = logger;
+           // orderServices = _orderServices;
+            logger = _logger;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-        
-            return View();
+    
+            return  View();
         }
 
         public IActionResult Privacy()

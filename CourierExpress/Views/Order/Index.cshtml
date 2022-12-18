@@ -1,0 +1,52 @@
+﻿@model CourierExpress.Infrastructure.Models.Orders
+@{
+    ViewBag.Title = "Create Order";
+}
+<h2 class="text-decoration-underline">@ViewBag.Title</h2>
+<hr />
+<hr />
+<form method="post">
+    <div class="border-light">
+        <h2>Collection from</h2>
+    </div>
+    <hr />
+    <div>
+        <label asp-for="CollectionAddress.Country"></label>
+        <input asp-for="CollectionAddress.Country" class="form-control" />
+        <span asp-validation-for="CollectionAddress.Country" class="text-bg-warning"></span>
+        <hr />
+        <label asp-for="CollectionAddress.City"></label>
+        <input asp-for="CollectionAddress.City" class="form-control" />
+        <span asp-validation-for="CollectionAddress.City" class="text-bg-warning"></span>
+    </div>
+    <div class="border-light">
+        <h2>ADD Parcels</h2>
+    </div>
+    <div>
+        <label asp-for="Parcel"></label>
+        <input asp-for="Parcel.Pieces" class="form-control" />
+        <span asp-validation-for="Parcel.Pieces" class="text-bg-warning"></span>
+        <hr />
+        <label asp-for="Parcel.TotalKg"></label>
+        <input asp-for="Parcel.TotalKg" class="form-control" />
+        <span asp-validation-for="Parcel.TotalKg" class="text-bg-warning"></span>
+    </div>
+    <hr />
+    <div class="border-light">
+        <h2>Delivery to</h2>
+    </div>
+    <div>
+        <label asp-for="DeliveryAddress.Country"></label>
+        <input asp-for="DeliveryAddress.Country" class="form-control" />
+        <span asp-validation-for="DeliveryAddress.Country" class="text-bg-warning"></span>
+        <hr />
+        <label asp-for="CollectionAddress.City"></label>
+        <input asp-for="CollectionAddress.City" class="form-control" />
+        <span asp-validation-for="DeliveryAddress.City" class="text-bg-warning"></span>
+    </div>
+    <hr />
+    <div class="text-end">
+        <button type="submit" class="btn btn-primary">Create</button>
+        <a asp-controller="Order" asp-action="Index" class="btn btn-primary">Back to list</a>
+    </div>
+</form>
